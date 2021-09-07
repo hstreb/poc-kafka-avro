@@ -1,0 +1,58 @@
+buildscript {
+	repositories {
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+		maven {
+			url "https://packages.confluent.io/maven/"
+		}
+		maven {
+			url = uri("https://jitpack.io")
+		}
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.5.4'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'com.github.imflog.kafka-schema-registry-gradle-plugin' version '1.5.0'
+	id 'com.github.davidmc24.gradle.plugin.avro' version '1.2.1'
+}
+
+group = 'org.example'
+version = '0.0.1'
+sourceCompatibility = '16'
+
+repositories {
+	mavenCentral()
+	maven {
+		url 'https://packages.confluent.io/maven/'
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'org.apache.avro:avro:1.10.2'
+	implementation 'io.confluent:kafka-avro-serializer:6.2.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+schemaRegistry {
+	url = 'http://localhost:8081'
+
+	register {
+		subject('cliente', 'src/main/avro/cliente.avsc', 'AVRO')
+	}
+
+}
+
+avro {
+	fieldVisibility = "PRIVATE"
+}

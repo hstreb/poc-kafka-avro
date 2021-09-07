@@ -1,0 +1,10 @@
+{
+  "namespace": "org.exemplo.clientes",
+  "name": "Cliente",
+  "type": "record",
+  "fields": [
+    {"name": "id", "type": "string"},
+    {"name": "nome", "type": "string"},
+    {"name": "documento", "type": "string"}
+  ]
+}
